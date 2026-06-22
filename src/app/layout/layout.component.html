@@ -1,0 +1,99 @@
+<div class="sidebar-overlay" [class.show]="sidebarOpen()" (click)="closeSidebar()"></div>
+
+<div class="app-wrapper">
+  <app-sidebar [isOpen]="sidebarOpen()"></app-sidebar>
+
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="hamburger" (click)="openSidebar()">
+          <span></span><span></span><span></span>
+        </div>
+        <h1>AuraHealth</h1>
+      </div>
+
+      <div class="topbar-right" style="position:relative;">
+        <button class="icon-btn" (click)="toggleNotif()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          @if (notifs.unreadCount > 0) {
+            <span class="badge"></span>
+          }
+        </button>
+
+        <!-- Panel de notificaciones -->
+        @if (notifPanelOpen()) {
+          <div style="position:absolute;top:calc(100% + 10px);right:0;width:320px;
+                      background:var(--surface);border-radius:16px;
+                      box-shadow:0 20px 60px rgba(0,0,0,.18);
+                      border:1px solid var(--border);z-index:400;overflow:hidden;">
+
+            <div style="display:flex;align-items:center;justify-content:space-between;
+                        padding:14px 16px 10px;border-bottom:1px solid var(--border);">
+              <h4 style="font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;color:var(--blue-dark);">
+                {{ 'nav.notificaciones' | translate }}
+                @if (notifs.unreadCount > 0) {
+                  <span style="font-size:.75rem;background:var(--turquoise);color:#fff;
+                               border-radius:99px;padding:1px 7px;margin-left:4px;">
+                    {{ notifs.unreadCount }}
+                  </span>
+                }
+              </h4>
+              <button (click)="markAllRead()"
+                style="background:none;border:none;font-size:.75rem;color:var(--turquoise);
+                       cursor:pointer;font-weight:600;">
+                {{ 'nav.marcar_todas' | translate }}
+              </button>
+            </div>
+
+            <div style="max-height:320px;overflow-y:auto;">
+              @for (n of notifs.notifications(); track n.id) {
+                <div (click)="markRead(n.id)"
+                  style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;
+                         border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;"
+                  [style.background]="n.read ? 'transparent' : 'rgba(77,184,200,.07)'">
+                  <span style="flex-shrink:0;width:28px;height:28px;border-radius:50%;
+                               background:var(--turquoise-light);display:flex;align-items:center;justify-content:center;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--turquoise)" stroke-width="2">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                  </span>
+                  <div style="flex:1;min-width:0;">
+                    <div style="font-size:.86rem;font-weight:600;color:var(--text);
+                                white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ n.title }}</div>
+                    <div style="font-size:.77rem;color:var(--text-muted);">{{ n.body }}</div>
+                  </div>
+                  <span style="font-size:.72rem;color:var(--text-muted);flex-shrink:0;">{{ n.time }}</span>
+                </div>
+              }
+            </div>
+
+            <div style="padding:10px 16px;border-top:1px solid var(--border);text-align:center;">
+              <a routerLink="/app/recordatorios"
+                style="font-size:.8rem;color:var(--turquoise);font-weight:600;"
+                (click)="notifPanelOpen.set(false)">
+                {{ 'nav.ver_recordatorios' | translate }}
+              </a>
+            </div>
+          </div>
+        }
+
+        <div class="avatar" routerLink="/app/perfil"
+          style="cursor:pointer;"
+          [title]="'nav.perfil' | translate">
+          {{ user.initials() }}
+        </div>
+      </div>
+    </header>
+
+    <main class="page-body">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+<app-mobile-nav></app-mobile-nav>
+<app-aurabot></app-aurabot>

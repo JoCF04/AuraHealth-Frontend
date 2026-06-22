@@ -1,0 +1,13 @@
+# Node
+node_modules/
+dist/
+out-tsc/
+.angular/
+
+# WebStorm
+.idea/
+
+# Misc
+*.js.map
+.DS_Store
+Thumbs.db
