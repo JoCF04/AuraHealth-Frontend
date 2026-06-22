@@ -1,0 +1,151 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+a { text-decoration: none; color: inherit; }
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  --blue:   #1a3a6e;
+  --text:   #1a1a2e;
+  --muted:  #4a5568;
+  --border: #d4dae2;
+}
+
+/* ─── NAVBAR ─────────────────────────────────────────────── */
+.navbar {
+  background: #fff;
+  padding: 0 40px;
+  height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e3e8ef;
+  flex-shrink: 0;
+}
+.navbar-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--blue);
+}
+.navbar-social { display: flex; align-items: center; gap: 20px; }
+.navbar-social a { color: #3a4a5e; }
+.navbar-social a:hover { color: var(--blue); }
+
+/* ─── CONTENEDOR PRINCIPAL ───────────────────────────────── */
+.login-page {
+  position: relative;
+  flex: 1;
+  min-height: calc(100vh - 65px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Capa 1 — foto de fondo desenfocada                        */
+.login-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: url('https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=1600&auto=format&fit=crop&q=80');
+  background-size: cover;
+  background-position: center;
+  filter: blur(8px);
+  transform: scale(1.06);
+}
+
+/* Capa 2 — velo azul oscuro                                 */
+.login-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: rgba(26,58,110,.72);
+}
+
+/* Área del formulario (por encima de las capas)             */
+.login-main {
+  position: relative; z-index: 2;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+}
+
+/* ─── TARJETA ────────────────────────────────────────────── */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border: 1px solid #e3e8ef;
+  border-radius: 0;
+  box-shadow: 0 4px 28px rgba(0,0,0,.22);
+  padding: 40px 44px;
+}
+
+/* ─── LOGO DENTRO DE LA TARJETA ──────────────────────────── */
+.card-brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 1.22rem;
+  color: var(--blue);
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+/* ─── TÍTULO ─────────────────────────────────────────────── */
+.login-card h2 {
+  font-family: 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 800;
+  color: var(--text); margin-bottom: 6px;
+}
+.login-subtitle { font-size: .89rem; color: var(--muted); margin-bottom: 26px; }
+
+/* ─── CAMPOS ─────────────────────────────────────────────── */
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.form-group label { font-size: .84rem; font-weight: 600; color: #2d3748; }
+.form-group input {
+  padding: 11px 14px;
+  border: 1px solid var(--border); border-radius: 0;
+  font-family: 'Roboto', sans-serif; font-size: .93rem; color: var(--text);
+  background: #fff; outline: none;
+}
+.form-group input:focus { border-color: var(--blue); }
+.form-group input::placeholder { color: #9aacbe; }
+
+/* ─── BOTÓN PRINCIPAL ────────────────────────────────────── */
+.btn-login {
+  width: 100%; padding: 13px;
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 0;
+  font-family: 'Poppins', sans-serif; font-size: .97rem; font-weight: 700;
+  cursor: pointer; margin-top: 4px; margin-bottom: 22px;
+}
+.btn-login:hover { background: #15305c; }
+
+/* ─── SEPARADOR ──────────────────────────────────────────── */
+.divider {
+  display: flex; align-items: center; gap: 12px;
+  font-size: .82rem; color: #8a9ab0;
+  margin-bottom: 16px;
+}
+.divider::before, .divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ─── BOTONES SOCIALES ───────────────────────────────────── */
+.social-btns { display: flex; gap: 12px; margin-bottom: 26px; }
+.btn-social {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 14px;
+  background: #fff; color: var(--text);
+  border: 1px solid var(--border); border-radius: 0;
+  font-family: 'Roboto', sans-serif; font-size: .88rem; font-weight: 600; cursor: pointer;
+}
+.btn-social:hover { background: #f5f7fa; }
+
+/* ─── ENLACE REGISTRO ────────────────────────────────────── */
+.register-link { text-align: center; font-size: .87rem; color: var(--muted); }
+.register-link a { color: var(--blue); font-weight: 600; }
+.register-link a:hover { text-decoration: underline; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 500px) {
+  .login-card { padding: 32px 24px; }
+  .navbar { padding: 0 20px; }
+  .login-main { padding: 32px 16px; }
+}
