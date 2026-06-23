@@ -1,0 +1,358 @@
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a routerLink="/" class="navbar-logo">
+    <img src="assets/logo2.png" alt="AuraHealth" style="height: 60px; width: auto;"/>
+  </a>
+  <ul class="navbar-links" [class.open]="mobileMenuOpen">
+    <li><a (click)="scrollTo('inicio')">Inicio</a></li>
+    <li><a (click)="scrollTo('sobre-nosotros')">Sobre nosotros</a></li>
+    <li><a (click)="scrollTo('caracteristicas')">Características</a></li>
+    <li><a (click)="scrollTo('contacto')">Contacto</a></li>
+    <li><a routerLink="/login" class="btn-login">Iniciar sesión</a></li>
+  </ul>
+  <button class="nav-toggle" (click)="mobileMenuOpen=!mobileMenuOpen" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-slides">
+    <div class="hero-slide" [class.active]="currentSlide === 0"
+         [style.backgroundImage]="'url(' + heroSlides[0] + ')'"></div>
+    <div class="hero-slide" [class.active]="currentSlide === 1"
+         [style.backgroundImage]="'url(' + heroSlides[1] + ')'"></div>
+    <div class="hero-slide" [class.active]="currentSlide === 2"
+         [style.backgroundImage]="'url(' + heroSlides[2] + ')'"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">Plataforma de salud preventiva</div>
+      <h1>TOMA EL CONTROL<br/>DE TU SALUD</h1>
+      <p>AuraHealth te brinda herramientas para gestionar tu bienestar. Recordatorios,
+      recomendaciones y seguimiento de tu salud en un solo lugar.</p>
+      <div class="hero-cta">
+        <a routerLink="/login" class="btn-primary">Empezar ahora</a>
+        <a (click)="scrollTo('sobre-nosotros')" class="btn-secondary">Conocer más</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-dots">
+    <button class="dot" [class.active]="currentSlide === 0" (click)="currentSlide = 0"></button>
+    <button class="dot" [class.active]="currentSlide === 1" (click)="currentSlide = 1"></button>
+    <button class="dot" [class.active]="currentSlide === 2" (click)="currentSlide = 2"></button>
+  </div>
+</section>
+
+<!-- FEATURES STRIP -->
+<div class="features-strip">
+  <div class="container strip-inner">
+    <div class="strip-item">
+      <div class="strip-box">
+        <span class="strip-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </span>
+        <div class="strip-text"><div class="s-title">Recordatorios</div><div class="s-sub">Nunca pierdas una cita</div></div>
+      </div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-box">
+        <span class="strip-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5.76.76 1.23 1.52 1.41 2.5"/>
+          </svg>
+        </span>
+        <div class="strip-text"><div class="s-title">Recomendaciones</div><div class="s-sub">Personalizadas para ti</div></div>
+      </div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-box">
+        <span class="strip-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </span>
+        <div class="strip-text"><div class="s-title">Seguimiento</div><div class="s-sub">Monitorea tu bienestar</div></div>
+      </div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-box">
+        <span class="strip-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </span>
+        <div class="strip-text"><div class="s-title">Multiplataforma</div><div class="s-sub">Web, iOS y Android</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="section-intro">
+  <div class="container intro-inner reveal">
+    <div class="intro-visual">
+      <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format&fit=crop&q=80"
+           alt="Profesional de salud" (error)="$event.target.style.display='none'"/>
+    </div>
+    <div class="intro-text">
+      <div class="section-tag">Nuestra plataforma</div>
+      <h2>CUIDA TU SALUD CON LAS HERRAMIENTAS DE AURAHEALTH</h2>
+      <p>AuraHealth es una plataforma diseñada para ayudarte a cuidar tu salud de forma preventiva.
+      Con herramientas concretas y contenido médico accesible, te ayudamos a mantenerte informado,
+      organizado y saludable cada día.</p>
+      <ul class="intro-list">
+        <li>Acceso a artículos médicos basados en evidencia científica</li>
+        <li>Recordatorios personalizados para citas y hábitos de salud</li>
+        <li>Disponible en cualquier dispositivo, en cualquier momento</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE NOSOTROS -->
+<section class="sobre-nosotros" id="sobre-nosotros">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>SOBRE NOSOTROS</h2>
+      <p>Conoce nuestra misión y visión para transformar la salud preventiva en América Latina.</p>
+      <div class="title-line"></div>
+    </div>
+    <div class="sobre-grid">
+      <div class="sobre-card reveal reveal-d1">
+        <div class="sobre-card-img">
+          <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=700&auto=format&fit=crop&q=80"
+               alt="Misión" (error)="$event.target.style.display='none'"/>
+        </div>
+        <div class="sobre-card-body">
+          <h3>Misión</h3>
+          <p>Empoderar a las personas para tomar el control de su salud preventiva a través de herramientas tecnológicas accesibles y personalizadas para cada etapa de la vida.</p>
+        </div>
+      </div>
+      <div class="sobre-card reveal reveal-d2">
+        <div class="sobre-card-img">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=700&auto=format&fit=crop&q=80"
+               alt="Visión" (error)="$event.target.style.display='none'"/>
+        </div>
+        <div class="sobre-card-body">
+          <h3>Visión</h3>
+          <p>Ser la plataforma de referencia en salud preventiva en América Latina, reconocida por su impacto positivo en la calidad de vida y el bienestar de las personas.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRANJA DATOS -->
+<div class="datos-strip">
+  <div class="container datos-inner reveal">
+    <div class="dato-item">
+      <div class="dato-num">100%</div>
+      <div class="dato-label">Gratuito para comenzar</div>
+    </div>
+    <div class="dato-item">
+      <div class="dato-num">24/7</div>
+      <div class="dato-label">Siempre disponible</div>
+    </div>
+    <div class="dato-item">
+      <div class="dato-num">Ilimitados</div>
+      <div class="dato-label">Recordatorios de salud</div>
+    </div>
+    <div class="dato-item">
+      <div class="dato-num">Evidencia</div>
+      <div class="dato-label">En cada artículo médico</div>
+    </div>
+  </div>
+</div>
+
+<!-- CARACTERÍSTICAS -->
+<section class="caracteristicas" id="caracteristicas">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>CONOCE AURAHEALTH</h2>
+      <p>Descubre todas las herramientas diseñadas para cuidar tu salud preventiva.</p>
+      <div class="title-line"></div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-d1">
+        <div class="feature-img-wrap">
+          <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=700&auto=format&fit=crop&q=80"
+               alt="Recordatorios" (error)="$event.target.style.display='none'"/>
+        </div>
+        <div class="feature-body">
+          <div class="feature-number">01 — Funcionalidad</div>
+          <h3>Recordatorios</h3>
+          <p>Recibe notificaciones sobre citas médicas, descanso y recursos importantes. Organiza tu agenda de salud sin esfuerzo.</p>
+          <a routerLink="/login" class="feature-link">Ver función
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="feature-card reveal reveal-d2">
+        <div class="feature-img-wrap">
+          <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=700&auto=format&fit=crop&q=80"
+               alt="Artículos" (error)="$event.target.style.display='none'"/>
+        </div>
+        <div class="feature-body">
+          <div class="feature-number">02 — Funcionalidad</div>
+          <h3>Artículos Educativos</h3>
+          <p>Explora contenido informativo sobre salud preventiva, bienestar y medicina. Mantente al día con fuentes basadas en evidencia científica.</p>
+          <a routerLink="/login" class="feature-link">Explorar artículos
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="feature-card reveal reveal-d3">
+        <div class="feature-img-wrap">
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=700&auto=format&fit=crop&q=80"
+               alt="Recomendaciones" (error)="$event.target.style.display='none'"/>
+        </div>
+        <div class="feature-body">
+          <div class="feature-number">03 — Funcionalidad</div>
+          <h3>Recomendaciones</h3>
+          <p>Recibe sugerencias basadas en tu historial y estilo de vida. Estrategias preventivas adaptadas a tus necesidades reales.</p>
+          <a routerLink="/login" class="feature-link">Ver recomendaciones
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="testimonios">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2>LO QUE DICEN NUESTROS USUARIOS</h2>
+      <p>Experiencias reales de personas que cuidan su salud con AuraHealth.</p>
+      <div class="title-line"></div>
+    </div>
+    <div class="testimonios-grid">
+      <div class="testimonio-card reveal reveal-d1">
+        <p class="testimonio-text">"AuraHealth cambió la forma en que cuido mi salud. Los recordatorios me ayudan a no olvidar mis controles anuales y a mantener hábitos saludables."</p>
+        <div class="testimonio-author">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=96&h=96&auto=format&fit=crop&q=80"
+               alt="María García" class="testimonio-avatar" (error)="$event.target.style.display='none'"/>
+          <div class="testimonio-author-info">
+            <strong>María García</strong>
+            <span>Lima, Perú</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonio-card reveal reveal-d2">
+        <p class="testimonio-text">"Los artículos educativos son claros y confiables. Me siento mucho más informado sobre la salud preventiva gracias a esta plataforma."</p>
+        <div class="testimonio-author">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&h=96&auto=format&fit=crop&q=80"
+               alt="Carlos Mendoza" class="testimonio-avatar" (error)="$event.target.style.display='none'"/>
+          <div class="testimonio-author-info">
+            <strong>Carlos Mendoza</strong>
+            <span>Bogotá, Colombia</span>
+          </div>
+        </div>
+      </div>
+      <div class="testimonio-card reveal reveal-d3">
+        <p class="testimonio-text">"Puedo acceder desde cualquier dispositivo. Es muy fácil de usar y las recomendaciones personalizadas son de gran utilidad en mi día a día."</p>
+        <div class="testimonio-author">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=96&h=96&auto=format&fit=crop&q=80"
+               alt="Ana Torres" class="testimonio-avatar" (error)="$event.target.style.display='none'"/>
+          <div class="testimonio-author-info">
+            <strong>Ana Torres</strong>
+            <span>Santiago, Chile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section class="contacto" id="contacto">
+  <div class="container contacto-inner reveal">
+    <div class="contacto-left">
+      <h2>CONTÁCTANOS</h2>
+      <p class="subtitle">¿Tienes preguntas? Escríbenos y te responderemos a la brevedad.</p>
+      <div class="contacto-form">
+        <div class="form-row-2">
+          <div class="c-form-group"><label>Nombre</label><input type="text" placeholder="John"/></div>
+          <div class="c-form-group"><label>Apellido</label><input type="text" placeholder="Doe"/></div>
+        </div>
+        <div class="c-form-group c-form-single"><label>Email</label><input type="email" placeholder="johndoe@gmail.com"/></div>
+        <div class="c-form-group c-form-single"><label>Dirección</label><input type="text" placeholder="Lima, Perú"/></div>
+        <div class="c-form-group c-form-single"><label>Descripción</label><textarea placeholder="Escribe tu mensaje..."></textarea></div>
+        <button class="btn-enviar">Enviar mensaje</button>
+      </div>
+    </div>
+    <div class="contacto-img-wrap">
+      <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?w=700&auto=format&fit=crop&q=80"
+           alt="Atención médica" (error)="$event.target.style.display='none'"/>
+    </div>
+  </div>
+</section>
+
+<!-- FRANJA CTA -->
+<div class="cta-strip">
+  <div class="container cta-inner">
+    <h2>Empieza a cuidar tu salud hoy</h2>
+    <p>Únete a AuraHealth de forma gratuita y accede a todas las herramientas de salud preventiva.</p>
+    <a routerLink="/login" class="btn-cta">Crear cuenta gratis</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="f-logo">
+          <img src="assets/logo2-dark.png" alt="AuraHealth" style="height: 50px; width: auto;"/>
+        </div>
+        <p>Tu plataforma de salud preventiva. Herramientas prácticas para cuidar tu bienestar cada día.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Plataforma</h4>
+        <ul>
+          <li><a (click)="scrollTo('inicio')">Inicio</a></li>
+          <li><a (click)="scrollTo('sobre-nosotros')">Sobre nosotros</a></li>
+          <li><a (click)="scrollTo('caracteristicas')">Características</a></li>
+          <li><a routerLink="/login">Iniciar sesión</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Funciones</h4>
+        <ul>
+          <li><a routerLink="/login">Recordatorios</a></li>
+          <li><a routerLink="/login">Artículos</a></li>
+          <li><a routerLink="/login">Recomendaciones</a></li>
+          <li><a routerLink="/login">AuraBot</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a (click)="scrollTo('contacto')">Enviar mensaje</a></li>
+          <li><a href="#">Soporte técnico</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+          <li><a href="#">Términos de uso</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 AuraHealth. Todos los derechos reservados.</span>
+      <div class="footer-social">
+        <a href="#" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,.8)"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="#" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" aria-label="X">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,.8)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
