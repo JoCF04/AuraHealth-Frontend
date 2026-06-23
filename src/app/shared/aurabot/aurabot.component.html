@@ -1,0 +1,36 @@
+<button class="aurabot-fab" (click)="toggle()" title="AuraBot – Asistente de salud">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+  </svg>
+</button>
+
+<div class="aurabot-window" [class.open]="isOpen()">
+  <div class="bot-header">
+    <div class="bot-dot"></div>
+    <h4>AuraBot</h4>
+    <button class="bot-close" (click)="close()">✕</button>
+  </div>
+
+  <div class="bot-messages">
+    @for (msg of messages(); track $index) {
+      <div class="msg" [ngClass]="msg.type">{{ msg.text }}</div>
+    }
+  </div>
+
+  <div class="bot-suggestions">
+    @for (s of suggestions; track s) {
+      <button class="sug-chip" (click)="send(s)">{{ s }}</button>
+    }
+  </div>
+
+  <div class="bot-input-row">
+    <input type="text" [placeholder]="'aurabot.placeholder' | translate"
+      [(ngModel)]="inputText" (keydown)="onKeydown($event)"/>
+    <button class="bot-send" (click)="send()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </button>
+  </div>
+</div>
