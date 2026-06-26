@@ -1,0 +1,167 @@
+<!-- Profile Hero -->
+<div class="profile-hero mb-6">
+  <div class="profile-avatar-lg">{{ userSvc.initials() }}</div>
+  <div style="flex:1;">
+    <h2>{{ userSvc.fullName() }}</h2>
+    <p>{{ pEmail }} · Lima, Perú</p>
+    <div class="profile-stats">
+      <div class="profile-stat"><div class="val">{{ heroAge() }}</div><div class="lbl">{{ 'perfil.anos' | translate }}</div></div>
+      <div class="profile-stat"><div class="val">{{ heroPeso() }}</div><div class="lbl">{{ 'perfil.peso_lbl' | translate }}</div></div>
+      <div class="profile-stat"><div class="val">{{ heroAltura() }}</div><div class="lbl">{{ 'perfil.altura_lbl' | translate }}</div></div>
+      <div class="profile-stat"><div class="val">{{ heroImc() }}</div><div class="lbl">{{ 'perfil.imc' | translate }}</div></div>
+    </div>
+  </div>
+  <button class="btn btn-outline" style="border-color:rgba(255,255,255,.6);color:#fff;background:rgba(255,255,255,.1);" (click)="scrollToEdit()">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    {{ 'perfil.editar_perfil' | translate }}
+  </button>
+</div>
+
+<div class="grid-2" style="gap:24px;">
+
+  <!-- LEFT -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- Health Summary -->
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between;">
+        <span style="display:flex;align-items:center;gap:8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>{{ 'perfil.resumen_salud' | translate }}</span>
+        <button (click)="openHealthModal()" style="background:var(--blue-dark);border:none;border-radius:8px;padding:5px 12px;cursor:pointer;color:#fff;font-size:.8rem;font-family:'Poppins',sans-serif;font-weight:600;display:flex;align-items:center;gap:6px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          {{ 'perfil.editar' | translate }}
+        </button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="hs-row"><span style="font-size:.9rem;color:var(--text-muted);">{{ 'perfil.tipo_sangre' | translate }}</span><span style="font-weight:700;color:var(--blue-dark);">{{ healthData.sangre }}</span></div>
+        <div class="hs-row"><span style="font-size:.9rem;color:var(--text-muted);">{{ 'perfil.presion' | translate }}</span><span style="font-weight:700;color:#22b573;">{{ healthData.presion }}</span></div>
+        <div class="hs-row"><span style="font-size:.9rem;color:var(--text-muted);">{{ 'perfil.glucosa' | translate }}</span><span style="font-weight:700;color:#22b573;">{{ healthData.glucosa }}</span></div>
+        <div class="hs-row"><span style="font-size:.9rem;color:var(--text-muted);">{{ 'perfil.colesterol' | translate }}</span><span style="font-weight:700;color:#f07030;">{{ healthData.colesterol }}</span></div>
+        <div class="hs-row"><span style="font-size:.9rem;color:var(--text-muted);">{{ 'perfil.alergias' | translate }}</span><span style="font-weight:700;color:var(--text);">{{ healthData.alergias || ('perfil.ninguna' | translate) }}</span></div>
+      </div>
+    </div>
+
+    <!-- Profile Medications -->
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between;">
+        <span style="display:flex;align-items:center;gap:8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>{{ 'perfil.medicamentos_actuales' | translate }}</span>
+        <button (click)="openMedModal()" style="background:var(--blue-dark);border:none;border-radius:8px;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+      @if (!profileMeds().length) {
+        <p style="font-size:.85rem;color:var(--text-muted);text-align:center;padding:16px 0;">{{ 'perfil.sin_meds' | translate }}</p>
+      }
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        @for (m of profileMeds(); track m.id; let i = $index) {
+          <div class="pmed-row">
+            <div [style.background]="profColors[i % profColors.length]" style="width:10px;height:10px;border-radius:50%;flex-shrink:0;"></div>
+            <div style="flex:1;"><div style="font-weight:600;font-size:.9rem;">{{ m.name }}</div><div style="font-size:.78rem;color:var(--text-muted);">{{ m.freq }}</div></div>
+            <button class="pmed-del" (click)="deleteMed(m.id)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <!-- Edit form -->
+    <div class="card" id="editar-info">
+      <div class="card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>{{ 'perfil.editar_info' | translate }}</div>
+      <div class="grid-2" style="gap:12px;">
+        <div class="form-group"><label>{{ 'perfil.nombre' | translate }}</label><input type="text" [(ngModel)]="pNombre"/></div>
+        <div class="form-group"><label>{{ 'perfil.apellido' | translate }}</label><input type="text" [(ngModel)]="pApellido"/></div>
+      </div>
+      <div class="form-group"><label>{{ 'perfil.correo' | translate }}</label><input type="email" [(ngModel)]="pEmail"/></div>
+      <div class="form-group"><label>{{ 'perfil.telefono' | translate }}</label><input type="tel" [(ngModel)]="pTelefono"/></div>
+      <div class="grid-2" style="gap:12px;">
+        <div class="form-group"><label>{{ 'perfil.fecha_nac' | translate }}</label><input type="date" [(ngModel)]="pNacimiento"/></div>
+        <div class="form-group">
+          <label>{{ 'perfil.sexo' | translate }}</label>
+          <select [(ngModel)]="pSexo">
+            <option value="masculino">{{ 'perfil.masculino' | translate }}</option>
+            <option value="femenino">{{ 'perfil.femenino' | translate }}</option>
+            <option value="no_indicar">{{ 'perfil.no_indicar' | translate }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid-2" style="gap:12px;">
+        <div class="form-group"><label>{{ 'perfil.peso_kg' | translate }}</label><input type="number" [(ngModel)]="pPeso" min="20" max="300"/></div>
+        <div class="form-group"><label>{{ 'perfil.altura_cm' | translate }}</label><input type="number" [(ngModel)]="pAltura" min="50" max="250"/></div>
+      </div>
+      <div class="form-group"><label>{{ 'perfil.medico_cabecera' | translate }}</label><input type="text" [(ngModel)]="pMedico"/></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+        <button class="btn btn-outline btn-sm" type="button" (click)="cancelEdit()">{{ 'common.cancelar' | translate }}</button>
+        <button class="btn btn-primary btn-sm" (click)="saveProfile()">{{ 'perfil.guardar_cambios' | translate }}</button>
+      </div>
+    </div>
+
+    <!-- Preferences -->
+    <div class="card">
+      <div class="card-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41"/></svg>{{ 'perfil.configuracion' | translate }}</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-weight:600;font-size:.9rem;">{{ 'perfil.modo_oscuro' | translate }}</div><div style="font-size:.78rem;color:var(--text-muted);">{{ 'perfil.activar_oscuro' | translate }}</div></div>
+          <button class="toggle-dark" [class.on]="theme.isDark()" (click)="theme.toggleDark()"></button>
+        </div>
+        <div style="height:1px;background:var(--border);"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-weight:600;font-size:.9rem;">{{ 'perfil.notif_recordatorios' | translate }}</div><div style="font-size:.78rem;color:var(--text-muted);">{{ 'perfil.recibir_alertas' | translate }}</div></div>
+          <button class="toggle-dark" [class.on]="notifRecordatorios()" (click)="notifRecordatorios.set(!notifRecordatorios())"></button>
+        </div>
+        <div style="height:1px;background:var(--border);"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-weight:600;font-size:.9rem;">{{ 'perfil.tamano_fuente' | translate }}</div><div style="font-size:.78rem;color:var(--text-muted);">{{ 'perfil.ajusta_texto' | translate }}</div></div>
+          <div style="display:flex;gap:8px;">
+            <button class="a11y-btn" (click)="theme.decreaseFontSize()">A-</button>
+            <button class="a11y-btn" (click)="theme.increaseFontSize()">A+</button>
+          </div>
+        </div>
+        <div style="height:1px;background:var(--border);"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div><div style="font-weight:600;font-size:.9rem;">{{ 'perfil.idioma' | translate }}</div><div style="font-size:.78rem;color:var(--text-muted);">{{ 'perfil.espanol_peru' | translate }}</div></div>
+          <select style="border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;background:var(--bg);color:var(--text);font-size:.85rem;outline:none;"><option>Español</option><option>English</option><option>Português</option></select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Resumen de Salud -->
+@if (showHealthModal) {
+  <div class="modal-overlay show" (click)="closeHealthModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header"><h3>{{ 'perfil.modal_salud_titulo' | translate }}</h3><button class="modal-close" (click)="closeHealthModal()">✕</button></div>
+      <div class="form-group"><label>{{ 'perfil.tipo_sangre' | translate }}</label><input type="text" [placeholder]="'perfil.tipo_sangre_ph' | translate" [(ngModel)]="healthEdit.sangre"/></div>
+      <div class="form-group"><label>{{ 'perfil.presion' | translate }}</label><input type="text" [placeholder]="'perfil.presion_ph' | translate" [(ngModel)]="healthEdit.presion"/></div>
+      <div class="form-group"><label>{{ 'perfil.glucosa' | translate }}</label><input type="text" [placeholder]="'perfil.glucosa_ph' | translate" [(ngModel)]="healthEdit.glucosa"/></div>
+      <div class="form-group"><label>{{ 'perfil.colesterol' | translate }}</label><input type="text" [placeholder]="'perfil.colesterol_ph' | translate" [(ngModel)]="healthEdit.colesterol"/></div>
+      <div class="form-group"><label>{{ 'perfil.alergias' | translate }}</label><input type="text" [placeholder]="'perfil.alergias_ph' | translate" [(ngModel)]="healthEdit.alergias"/></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="closeHealthModal()">{{ 'common.cancelar' | translate }}</button>
+        <button class="btn btn-primary" (click)="saveHealth()">{{ 'common.guardar' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- MODAL: Agregar Medicamento -->
+@if (showMedModal) {
+  <div class="modal-overlay show" (click)="closeMedModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header"><h3>{{ 'perfil.modal_med_titulo' | translate }}</h3><button class="modal-close" (click)="closeMedModal()">✕</button></div>
+      <div class="form-group"><label>{{ 'perfil.nombre_dosis' | translate }}</label><input type="text" [placeholder]="'perfil.nombre_dosis_ph' | translate" [(ngModel)]="pmName" required/></div>
+      <div class="form-group"><label>{{ 'perfil.frecuencia_inst' | translate }}</label><input type="text" [placeholder]="'perfil.frecuencia_ph' | translate" [(ngModel)]="pmFreq"/></div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="closeMedModal()">{{ 'common.cancelar' | translate }}</button>
+        <button class="btn btn-primary" (click)="addMed()">{{ 'common.guardar' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Toast -->
+<div class="toast" [class.show]="toastVisible">{{ toastMsg }}</div>
