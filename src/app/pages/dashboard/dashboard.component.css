@@ -1,0 +1,11 @@
+.med-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);transition:all .2s;margin-bottom:10px;}
+.med-row:last-child{margin-bottom:0;}
+.med-row:hover{border-color:var(--turquoise);}
+.med-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.med-info{flex:1;}
+.med-name{font-weight:600;font-size:.9rem;color:var(--text);}
+.med-desc{font-size:.75rem;color:var(--text-muted);}
+.med-done-btn{background:none;border:2px solid var(--border);border-radius:0;width:24px;height:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.med-done-btn.done{background:var(--turquoise);border-color:var(--turquoise);}
+.med-del-btn{background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;border-radius:0;display:flex;align-items:center;transition:color .2s;}
+.med-del-btn:hover{color:#e05050;}
