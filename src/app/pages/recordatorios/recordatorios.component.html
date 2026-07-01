@@ -1,0 +1,142 @@
+<!-- Header -->
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+  <div>
+    <h2 style="font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;color:var(--blue-dark);">{{ 'recordatorios.titulo' | translate }}</h2>
+    <p class="text-muted">{{ 'recordatorios.subtitulo' | translate }}</p>
+  </div>
+  <button class="btn btn-primary" (click)="openNew()">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    {{ 'recordatorios.nuevo' | translate }}
+  </button>
+</div>
+
+<div class="grid-2">
+
+  <!-- Left: Donut + List -->
+  <div style="display:flex;flex-direction:column;gap:20px;">
+
+    <div class="card" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+      <div class="donut-wrap">
+        <svg id="donutProgress" width="160" height="160"></svg>
+        <div class="donut-center">
+          <div class="donut-pct">{{ svc.pct }}%</div>
+          <div class="donut-label">{{ 'recordatorios.hoy' | translate }}</div>
+        </div>
+      </div>
+      <div>
+        <p style="font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--blue-dark);margin-bottom:4px;">{{ 'recordatorios.progreso_dia' | translate }}</p>
+        <p class="text-muted">{{ svc.doneCount }}/{{ svc.totalCount }} {{ 'recordatorios.completados' | translate }}</p>
+        <p style="font-size:.82rem;color:var(--text-muted);margin-top:8px;">{{ 'recordatorios.marca_hint' | translate }}</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        {{ 'recordatorios.proximos' | translate }}
+      </div>
+      <div class="reminder-list">
+        @if (!filtered.length) {
+          <p style="text-align:center;font-size:.85rem;color:var(--text-muted);padding:16px 0;">
+            {{ selectedDate ? ('recordatorios.sin_fecha' | translate) : ('recordatorios.sin_aun' | translate) }}
+          </p>
+        }
+        @for (r of filtered; track r.id) {
+          <div class="reminder-item" [class.done]="r.done">
+            <button class="reminder-check" [class.checked]="r.done" (click)="toggle(r.id)">
+              <svg width="13" height="10" viewBox="0 0 13 10" fill="none"><polyline points="1.5,5 5,8.5 11.5,1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="reminder-info">
+              <div class="reminder-name">{{ r.name }}</div>
+              <span class="reminder-time">{{ fmt(r) }}</span>
+            </div>
+            <span class="reminder-tag" [ngClass]="tagMap[r.type].cls">{{ 'recordatorios.tipo.' + r.type | translate }}</span>
+            <div class="rem-actions">
+              <button class="rem-btn rem-edit" (click)="openEdit(r)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </button>
+              <button class="rem-btn rem-del" (click)="remove(r.id)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Calendar -->
+  <div class="card" style="align-self:start;">
+    <div class="card-title">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      {{ 'recordatorios.calendario' | translate }}
+    </div>
+    <div class="calendar-wrap">
+      <div class="cal-header">
+        <button class="cal-nav" (click)="prevMonth()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>
+        <h3>{{ calMonthLabel }}</h3>
+        <button class="cal-nav" (click)="nextMonth()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg></button>
+      </div>
+      <div class="cal-days-header">
+        @for (d of diasSemana; track $index) {
+          <div>{{ d }}</div>
+        }
+      </div>
+      <div class="cal-grid">
+        @for (cell of calDays; track $index) {
+          <div class="cal-day"
+            [class.empty]="cell.empty"
+            [class.today]="cell.isToday"
+            [class.has-event]="cell.hasEvent"
+            [class.selected]="cell.isSelected"
+            (click)="selectDay(cell)">
+            {{ cell.empty ? '' : cell.day }}
+          </div>
+        }
+      </div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text-muted);">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--turquoise)"></div>
+        {{ 'recordatorios.hoy_leyenda' | translate }}
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;font-size:.78rem;color:var(--text-muted);">
+        <div style="width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.5);border:1px solid var(--border)"></div>
+        {{ 'recordatorios.tiene_evento' | translate }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL -->
+@if (showModal) {
+  <div class="modal-overlay show" (click)="showModal=false">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ (editingId !== null ? 'recordatorios.modal_editar' : 'recordatorios.modal_nuevo') | translate }}</h3>
+        <button class="modal-close" (click)="showModal=false">✕</button>
+      </div>
+      <div class="form-group">
+        <label>{{ 'recordatorios.nombre_rem' | translate }}</label>
+        <input type="text" [placeholder]="'recordatorios.nombre_ph' | translate" [(ngModel)]="rName" required/>
+      </div>
+      <div class="form-group">
+        <label>{{ 'recordatorios.tipo_label' | translate }}</label>
+        <select [(ngModel)]="rType">
+          <option value="medical">{{ 'recordatorios.tipo.medical' | translate }}</option>
+          <option value="medicine">{{ 'recordatorios.tipo.medicine' | translate }}</option>
+          <option value="exam">{{ 'recordatorios.tipo.exam' | translate }}</option>
+          <option value="vaccine">{{ 'recordatorios.tipo.vaccine' | translate }}</option>
+        </select>
+      </div>
+      <div class="grid-2" style="gap:12px;">
+        <div class="form-group"><label>{{ 'recordatorios.fecha_label' | translate }}</label><input type="date" [(ngModel)]="rDate" required/></div>
+        <div class="form-group"><label>{{ 'recordatorios.hora_label' | translate }}</label><input type="time" [(ngModel)]="rTime" required/></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" (click)="showModal=false">{{ 'common.cancelar' | translate }}</button>
+        <button class="btn btn-primary" (click)="save()">{{ 'common.guardar' | translate }}</button>
+      </div>
+    </div>
+  </div>
+}
