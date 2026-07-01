@@ -1,0 +1,65 @@
+<!-- Health tips banner -->
+<div class="health-tip mb-6">
+  <div class="health-tip-text">
+    <h3>{{ 'recomendaciones.banner_titulo' | translate }}</h3>
+    <ul>
+      <li>{{ 'recomendaciones.banner_tip1' | translate }}</li>
+      <li>{{ 'recomendaciones.banner_tip2' | translate }}</li>
+      <li>{{ 'recomendaciones.banner_tip3' | translate }}</li>
+      <li>{{ 'recomendaciones.banner_tip4' | translate }}</li>
+    </ul>
+  </div>
+  <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=130&fit=crop&auto=format"
+       [alt]="'recomendaciones.alt_imagen' | translate"
+       style="border-radius:10px;width:180px;height:110px;object-fit:cover;flex-shrink:0;"
+       (error)="$event.target.style.display='none'"/>
+</div>
+
+<!-- Search bar -->
+<div class="rec-search">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+  </svg>
+  <input type="text"
+         [value]="search()"
+         (input)="search.set($any($event.target).value)"
+         [placeholder]="'recomendaciones.buscar_ph' | translate"/>
+</div>
+
+<!-- Filter tabs -->
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;">
+  @for (key of filterKeys; track key) {
+    <button class="btn btn-sm"
+      [class.btn-primary]="activeFilter() === key"
+      [class.btn-outline]="activeFilter() !== key"
+      (click)="setFilter(key)">
+      {{ 'recomendaciones.filtros.' + key | translate }}
+    </button>
+  }
+</div>
+
+<!-- Section title -->
+<div class="section-title">
+  {{ 'recomendaciones.seccion_titulo' | translate }}
+</div>
+
+<!-- Cards grid -->
+<div class="rec-grid">
+  @for (a of visible; track a.idx) {
+    <div class="rec-card">
+      <div class="rec-card-img">
+        <img [src]="a.img" [alt]="'recomendaciones.art.' + a.idx + '.titulo' | translate"
+             style="width:100%;height:140px;object-fit:cover;"
+             (error)="$event.target.style.display='none'"/>
+      </div>
+      <div class="rec-card-body">
+        <span [ngClass]="tagClass(a.cat)">{{ 'recomendaciones.tags.' + a.cat | translate }}</span>
+        <div class="rec-card-title">{{ 'recomendaciones.art.' + a.idx + '.titulo' | translate }}</div>
+        <div class="rec-card-desc">{{ 'recomendaciones.art.' + a.idx + '.desc' | translate }}</div>
+      </div>
+    </div>
+  }
+</div>
+@if (visible.length === 0) {
+  <p class="rec-empty">{{ 'recomendaciones.sin_resultados' | translate }}</p>
+}

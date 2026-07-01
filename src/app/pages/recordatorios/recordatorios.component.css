@@ -1,0 +1,5 @@
+.rem-actions{display:flex;gap:4px;margin-left:4px;flex-shrink:0;}
+.rem-btn{background:none;border:none;cursor:pointer;color:var(--text-muted);padding:5px;border-radius:6px;display:flex;align-items:center;transition:color .2s,background .2s;}
+.rem-btn:hover{background:var(--bg);}
+.rem-edit:hover{color:var(--blue-dark);}
+.rem-del:hover{color:#e05050;}
