@@ -2,7 +2,7 @@ import { Component, inject, signal, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { PartnerService, Partner } from '../../../../../../front/2_Lucia_landing_partner_aurabot/src/app/services/partner.service';
+import { PartnerService, Partner } from '../../services/partner.service';
 import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
